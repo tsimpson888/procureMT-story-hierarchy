@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Story Hierarchy</title>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f2f6;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 24px 20px 48px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 28px;
+  }
+
+  /* ─── Scrollable canvas ─── */
+  .canvas {
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+
+  /* ─── Themes row ─── */
+  .themes-row {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    min-width: max-content;
+    padding: 0 4px;
+  }
+
+  /* ─── Theme column ─── */
+  .theme-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 220px;
+  }
+
+  /* ─── Theme box ─── */
+  .theme-box {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* connector from theme box down */
+  .theme-connector {
+    width: 2px;
+    height: 20px;
+    background: #bbb;
+    flex-shrink: 0;
+  }
+
+  /* ─── Features area ─── */
+  .features-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* horizontal bar spanning features */
+  .feature-hbar {
+    height: 2px;
+    background: #bbb;
+    width: 100%;
+  }
+
+  /* single feature column */
+  .feature-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .feature-connector {
+    width: 2px;
+    height: 16px;
+    background: #bbb;
+    flex-shrink: 0;
+  }
+
+  /* ─── MVP badge on feature ─── */
+  .mvp-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+  .mvp-yes  { background:#166534; color:#fff; }
+  .mvp-no   { background:#9ca3af; color:#fff; }
+
+  /* ─── Feature box ─── */
+  .feature-box {
+    width: calc(100% - 16px);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1.5px solid transparent;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ─── Stories column ─── */
+  .stories-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: calc(100% - 16px);
+  }
+
+  .story-connector {
+    width: 2px;
+    height: 12px;
+    background: #ccc;
+    flex-shrink: 0;
+  }
+
+  /* ─── Story box ─── */
+  .story-box {
+    width: 100%;
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-size: 0.72rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    margin-bottom: 0;
+  }
+  .story-title {
+    font-weight: 600;
+    font-size: 0.74rem;
+    color: #1a1a2e;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .story-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .meta-tag {
+    font-size: 0.67rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ─── Spacer between features ─── */
+  .feature-gap { height: 10px; width: 100%; }
+
+  /* ─── Theme palette ─── */
+  /* Access Control */       .t0 { background:#dbe9ff; border-color:#6ea8fe; color:#0a3b7a; }
+  /* Approvals */            .t1 { background:#e9d8fd; border-color:#a78bfa; color:#4c0d8a; }
+  /* Assignment & Work */    .t2 { background:#d1fae5; border-color:#34d399; color:#064e2a; }
+  /* Other */                .t3 { background:#ffe4c4; border-color:#fb923c; color:#7a2e00; }
+  /* Reporting & Insights */ .t4 { background:#fef9c3; border-color:#facc15; color:#713f12; }
+  /* Request Intake */       .t5 { background:#fce7f3; border-color:#f472b6; color:#831843; }
+  /* Unassigned */           .t6 { background:#e5e7eb; border-color:#9ca3af; color:#374151; }
+  /* Visibility & Tracking */.t7 { background:#cffafe; border-color:#22d3ee; color:#164e63; }
+  /* Workflow & Routing */   .t8 { background:#dcfce7; border-color:#4ade80; color:#14532d; }
+  /* Workspace */            .t9 { background:#ede9fe; border-color:#8b5cf6; color:#3b0764; }
+
+  /* Feature box uses slightly deeper border of its theme */
+  .f0 { background:#eef4ff; border-color:#6ea8fe; color:#0a3b7a; }
+  .f1 { background:#f3eeff; border-color:#a78bfa; color:#4c0d8a; }
+  .f2 { background:#ecfdf5; border-color:#34d399; color:#064e2a; }
+  .f3 { background:#fff7ed; border-color:#fb923c; color:#7a2e00; }
+  .f4 { background:#fefce8; border-color:#facc15; color:#713f12; }
+  .f5 { background:#fdf2f8; border-color:#f472b6; color:#831843; }
+  .f6 { background:#f3f4f6; border-color:#9ca3af; color:#374151; }
+  .f7 { background:#ecfeff; border-color:#22d3ee; color:#164e63; }
+  .f8 { background:#f0fdf4; border-color:#4ade80; color:#14532d; }
+  .f9 { background:#f5f3ff; border-color:#8b5cf6; color:#3b0764; }
+
+  /* ─── Status badge colours ─── */
+  .s-complete   { background:#d1fae5; color:#065f46; }
+  .s-dev        { background:#dbeafe; color:#1e40af; }
+  .s-design     { background:#fef9c3; color:#78350f; }
+  .s-handoff    { background:#ede9fe; color:#5b21b6; }
+  .s-notstarted { background:#f3f4f6; color:#4b5563; }
+  .s-draft      { background:#ffe4e6; color:#9f1239; }
+  .s-ba         { background:#cffafe; color:#155e75; }
+  .s-other      { background:#e5e7eb; color:#374151; }
+
+  /* ─── Priority badge ─── */
+  .p-must   { background:#fee2e2; color:#991b1b; }
+  .p-should { background:#ffedd5; color:#9a3412; }
+  .p-could  { background:#fef3c7; color:#92400e; }
+  .p-none   { background:#f3f4f6; color:#6b7280; }
+
+  /* ─── User badge ─── */
+  .user-tag { background:#e0f2fe; color:#0369a1; }
+
+  /* ─── Config story override ─── */
+  .story-box.config-story { background:#e5e7eb; border-color:#9ca3af; }
+  .story-box.config-story .story-title { color:#374151; }
+
+  /* ─── Filter bar ─── */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+    margin: -24px -20px 20px;
+  }
+  .filter-bar label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+  }
+  .filter-bar select {
+    font-size: 0.75rem;
+    padding: 5px 28px 5px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #1a1a2e;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    min-width: 140px;
+  }
+  .filter-bar select:focus { outline: 2px solid #6ea8fe; border-color: #6ea8fe; }
+  .filter-bar .filter-group { display: flex; align-items: center; gap: 6px; }
+  .filter-bar .divider { width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px; }
+  .btn-reset {
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .btn-reset:hover { background: #e2e8f0; }
+
+  /* hidden story/feature/theme via filtering */
+  .story-hidden { display: none !important; }
+  .feature-col.feature-dimmed { opacity: 0.25; }
+  .theme-col.theme-dimmed { opacity: 0.25; }
+</style>
+</head>
+<body>
+
+<div class="filter-bar" id="filter-bar">
+  <div class="filter-group">
+    <label for="f-status">Status</label>
+    <select id="f-status"><option value="">All Statuses</option></select>
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <label for="f-priority">Priority</label>
+    <select id="f-priority"><option value="">All Priorities</option></select>
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <label for="f-user">Story User</label>
+    <select id="f-user"><option value="">All Users</option></select>
+  </div>
+  <button class="btn-reset" id="btn-reset">Reset</button>
+</div>
+
+<h1>Story Hierarchy</h1>
+<p class="subtitle">Themes → Features → Stories</p>
+
+<div class="canvas">
+<div class="themes-row" id="themes-row">
+<!-- Generated by JS below -->
+</div>
+</div>
+
+<script>
+// mvp: true = MVP, false = NOT MVP
+const DATA = {
+  "Access Control": {
+    cls: "t0", fcls: "f0",
+    features: {
+      "Roles and Permissions": { mvp: true, stories: [
+        { title: "RBAC-Config", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "System" }
+      ]},
+      "Assignment Groups and Members Management": { mvp: true, stories: [
+        { title: "Assignment Groups-Config", status: "3b-In Development", priority: "1-must have", user: "System" },
+        { title: "Assignment Groups-Create", status: "1a-Not Started", priority: "", user: "Agency IT" },
+        { title: "Assignment Groups-Manage", status: "1a-Not Started", priority: "", user: "Agency IT" }
+      ]},
+      "System Security and Authentication": { mvp: true, stories: [] }
+    }
+  },
+  "Approvals": {
+    cls: "t1", fcls: "f1",
+    features: {
+      "Approval Path Builder": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Approval Path Execution": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Approval Path Override": { mvp: false, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Auto IT Approval Needed Classification": { mvp: false, stories: [] },
+      "Auto OBPP Approval Required Classification": { mvp: false, stories: [] }
+    }
+  },
+  "Assignment & Work Distribution": {
+    cls: "t2", fcls: "f2",
+    features: {
+      "Auto/Manual Step & Group Progression": { mvp: true, stories: [
+        { title: "Post Approval Routing", status: "1b-Draft", priority: "1-must have", user: "System" },
+        { title: "Auto Step Upon Save as Draft", status: "2-Design", priority: "3-could have", user: "System" },
+        { title: "Auto Step Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
+        { title: "Auto Group Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
+        { title: "Manual Intake in Process - Temp", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
+        { title: "Manual Ready for Approval", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
+        { title: "Manual Approval Complete - Temp", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
+        { title: "Manually Assign Sourcing Assignment Group and Status - Temp", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" }
+      ]},
+      "Individual Assignment": { mvp: true, stories: [
+        { title: "Assigned To or Claim", status: "2-Design", priority: "", user: "Procurement Group / Leadership Group" }
+      ]},
+      "Reassignments": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Auto Procurement Method Classification": { mvp: false, stories: [] },
+      "Auto Round Robin Rerouting Capabilities": { mvp: false, stories: [] },
+      "Escalations": { mvp: false, stories: [] },
+      "Manual Workload Management": { mvp: false, stories: [] }
+    }
+  },
+  "Other": {
+    cls: "t3", fcls: "f3",
+    features: {
+      "Application": { mvp: true, stories: [
+        { title: "Application- Config (may need to split???)", status: "8-Complete", priority: "1-must have", user: "System" }
+      ]},
+      "Data Exports": { mvp: true, stories: [] },
+      "Data Movement": { mvp: true, stories: [] },
+      "Bulk Operations": { mvp: false, stories: [] },
+      "Mobile": { mvp: false, stories: [] },
+      "Other Configuration Management": { mvp: false, stories: [] },
+      "User Preference Management": { mvp: false, stories: [] }
+    }
+  },
+  "Reporting & Insights": {
+    cls: "t4", fcls: "f4",
+    features: {
+      "Queue Interface": { mvp: true, stories: [
+        { title: "Threshold Procurement Group Queues", status: "2-Design", priority: "1-must have", user: "Procurement Group / Leadership Group" },
+        { title: "Procurement Group Queue-Details", status: "3a-Hand-off to Product Mgr", priority: "2-should have", user: "Procurement Group" },
+        { title: "Sourcing Procurement Group Queues", status: "1b-Draft", priority: "1-must have", user: "Procurement Group / Leadership Group" }
+      ]},
+      "Search and Filter Capabilities": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Operational Reports": { mvp: false, stories: [] },
+      "Dashboards": { mvp: false, stories: [] }
+    }
+  },
+  "Request Intake & Management": {
+    cls: "t5", fcls: "f5",
+    features: {
+      "Request Management": { mvp: true, stories: [
+        { title: "Create Request - Enterprise Fields", status: "3b-In Development", priority: "1-must have", user: "Requester" },
+        { title: "Save Draft Request", status: "2-Design", priority: "3-could have", user: "Requester" },
+        { title: "Submit Request", status: "3b-In Development", priority: "1-must have", user: "Requester" }
+      ]},
+      "Attachment Management": { mvp: true, stories: [
+        { title: "Add Request Attachments", status: "2-Design", priority: "2-should have", user: "Requester" },
+        { title: "Add Attachments", status: "2-Design", priority: "2-should have", user: "Procurement Group" }
+      ]},
+      "Refined Request Management": { mvp: true, stories: [
+        { title: "View Original Request Details", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
+        { title: "Add Refinement Details", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" }
+      ]},
+      "Cancelations": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]}
+    }
+  },
+  "Unassigned": {
+    cls: "t6", fcls: "f6",
+    features: {
+      "Unassigned": { mvp: false, stories: [
+        { title: "Delegation Setup In Database (Cross-Cutting)", status: "8-Complete", priority: "1-must have", user: "System" },
+        { title: "Fix Test Procurement API Deployment", status: "8-Complete", priority: "1-must have", user: "System" },
+        { title: "Make Environment Secrets File Work", status: "8-Complete", priority: "1-must have", user: "System" },
+        { title: "Show Front End Is Up (Even If Back End Is Not)", status: "8-Complete", priority: "1-must have", user: "System" }
+      ]}
+    }
+  },
+  "Visibility & Tracking": {
+    cls: "t7", fcls: "f7",
+    features: {
+      "Status Tracking and Management": { mvp: true, stories: [
+        { title: "State/Step/Status Mapping-Config", status: "3b-In Development", priority: "1-must have", user: "System" },
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Action History Interface": { mvp: true, stories: [
+        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Compliance and Audit History": { mvp: true, stories: [] },
+      "Event-Based Notifications": { mvp: true, stories: [] },
+      "Reminder and Escalation Notifications": { mvp: false, stories: [] }
+    }
+  },
+  "Workflow & Routing Engine": {
+    cls: "t8", fcls: "f8",
+    features: {
+      "Entity Configuration Management": { mvp: true, stories: [
+        { title: "Commodity Codes-Config", status: "3b-In Development", priority: "1-must have", user: "System" },
+        { title: "EntitySpendingCodeMatrix-Config", status: "2-Design", priority: "1-must have", user: "System" },
+        { title: "EntityList-Config", status: "2-Design", priority: "1-must have", user: "System" }
+      ]},
+      "Dynamic Workflow Reroute": { mvp: true, stories: [] }
+    }
+  },
+  "Workspace": {
+    cls: "t9", fcls: "f9",
+    features: {
+      "Requester Workspace": { mvp: false, stories: [
+        { title: "Requester Workspace-Config", status: "1a-Not Started", priority: "", user: "Requester" },
+        { title: "Requester Workspace-Detail", status: "1a-Not Started", priority: "", user: "Requester" }
+      ]},
+      "Procurement Workspace": { mvp: true, stories: [
+        { title: "Procurement Workspace-Config", status: "6b-BA Testing PASS", priority: "", user: "System" },
+        { title: "Procurement Workspace-Detail-Step/Status Visibility", status: "2-Design", priority: "1-must have", user: "Procurement Group / Leadership Group" },
+        { title: "Procurement Workspace-Detail-Threshold Queue Visibility", status: "2-Design", priority: "1-must have", user: "Procurement Group / Leadership Group" }
+      ]}
+    }
+  }
+};
+
+function statusClass(s) {
+  if (!s) return 's-other';
+  if (s.includes('Complete') || s.includes('PASS')) return 's-complete';
+  if (s.includes('Development')) return 's-dev';
+  if (s.includes('Design')) return 's-design';
+  if (s.includes('Hand-off')) return 's-handoff';
+  if (s.includes('Not Started')) return 's-notstarted';
+  if (s.includes('Draft')) return 's-draft';
+  if (s.includes('BA')) return 's-ba';
+  return 's-other';
+}
+
+function priorityClass(p) {
+  if (!p) return 'p-none';
+  if (p.includes('must')) return 'p-must';
+  if (p.includes('should')) return 'p-should';
+  if (p.includes('could')) return 'p-could';
+  return 'p-none';
+}
+
+function buildStory(s) {
+  const isConfig = s.title.toLowerCase().includes('config');
+  return `
+    <div class="story-box${isConfig ? ' config-story' : ''}">
+      <div class="story-title">${s.title}</div>
+      <div class="story-meta">
+        ${s.status ? `<span class="meta-tag ${statusClass(s.status)}">${s.status}</span>` : ''}
+        ${s.priority ? `<span class="meta-tag ${priorityClass(s.priority)}">${s.priority}</span>` : ''}
+        ${s.user ? `<span class="meta-tag user-tag">${s.user}</span>` : ''}
+      </div>
+    </div>`;
+}
+
+function buildFeature(fname, featureData, fcls) {
+  const stories = featureData.stories || [];
+  const mvp = featureData.mvp;
+  const mvpBadge = `<span class="mvp-badge ${mvp ? 'mvp-yes' : 'mvp-no'}">${mvp ? 'MVP' : 'NOT MVP'}</span>`;
+  const storyHTML = stories.map((s, i) => `
+    <div class="story-connector"></div>
+    ${buildStory(s)}
+  `).join('');
+
+  return `
+    <div class="feature-connector"></div>
+    <div class="feature-box ${fcls}">${fname}${mvpBadge}</div>
+    <div class="stories-col">
+      ${storyHTML}
+    </div>`;
+}
+
+// ─── Collect unique filter values ───
+const allStatuses = new Set();
+const allPriorities = new Set();
+const allUsers = new Set();
+Object.values(DATA).forEach(td => {
+  Object.values(td.features).forEach(featureData => {
+    (featureData.stories || []).forEach(s => {
+      if (s.status)   allStatuses.add(s.status);
+      if (s.priority) allPriorities.add(s.priority);
+      if (s.user)     s.user.split('/').forEach(u => allUsers.add(u.trim()));
+    });
+  });
+});
+function populateSelect(id, values) {
+  const sel = document.getElementById(id);
+  [...values].sort().forEach(v => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    sel.appendChild(o);
+  });
+}
+populateSelect('f-status',   allStatuses);
+populateSelect('f-priority', allPriorities);
+populateSelect('f-user',     allUsers);
+
+const row = document.getElementById('themes-row');
+
+Object.entries(DATA).forEach(([theme, themeData]) => {
+  const featureKeys = Object.keys(themeData.features);
+
+  const featuresHTML = featureKeys.map((fname, fi) => {
+    const featureData = themeData.features[fname];
+    return `
+      ${fi > 0 ? '<div class="feature-gap"></div>' : ''}
+      <div class="feature-col" data-mvp="${featureData.mvp}">
+        ${buildFeature(fname, featureData, themeData.fcls)}
+      </div>`;
+  }).join('');
+
+  const col = document.createElement('div');
+  col.className = 'theme-col';
+  col.innerHTML = `
+    <div class="theme-box ${themeData.cls}">${theme}</div>
+    <div class="theme-connector"></div>
+    <div class="features-area">
+      ${featuresHTML}
+    </div>`;
+  row.appendChild(col);
+});
+
+// ─── Filter logic ───
+function applyFilters() {
+  const fStatus   = document.getElementById('f-status').value;
+  const fPriority = document.getElementById('f-priority').value;
+  const fUser     = document.getElementById('f-user').value;
+  const anyStoryFilter = fStatus || fPriority || fUser;
+
+  document.querySelectorAll('.theme-col').forEach(themeCol => {
+    let themeHasVisible = false;
+
+    themeCol.querySelectorAll('.feature-col').forEach(featCol => {
+      // Skip features that are hidden by the MVP toggle
+      const storyBoxes = featCol.querySelectorAll('.story-box');
+      const hasStories = storyBoxes.length > 0;
+
+      // If no story filters active, all visible features count as visible
+      if (!anyStoryFilter) {
+        featCol.classList.remove('feature-dimmed');
+        storyBoxes.forEach(box => {
+          box.classList.remove('story-hidden');
+          const connector = box.previousElementSibling;
+          if (connector && connector.classList.contains('story-connector')) connector.style.display = '';
+        });
+        themeHasVisible = true;
+        return;
+      }
+
+      // Story filters are active — only dim if the feature HAS stories and none match
+      let featHasMatch = !hasStories; // features with no stories are never dimmed by story filters
+
+      storyBoxes.forEach(box => {
+        const sStatus   = box.dataset.status   || '';
+        const sPriority = box.dataset.priority  || '';
+        const sUser     = box.dataset.user      || '';
+
+        const matchStatus   = !fStatus   || sStatus === fStatus;
+        const matchPriority = !fPriority || sPriority === fPriority;
+        const matchUser     = !fUser     || sUser.split('/').map(u=>u.trim()).includes(fUser);
+
+        const connector = box.previousElementSibling;
+        if (matchStatus && matchPriority && matchUser) {
+          box.classList.remove('story-hidden');
+          if (connector && connector.classList.contains('story-connector')) connector.style.display = '';
+          featHasMatch = true;
+        } else {
+          box.classList.add('story-hidden');
+          if (connector && connector.classList.contains('story-connector')) connector.style.display = 'none';
+        }
+      });
+
+      if (featHasMatch) {
+        featCol.classList.remove('feature-dimmed');
+        themeHasVisible = true;
+      } else {
+        featCol.classList.add('feature-dimmed');
+      }
+    });
+
+    if (themeHasVisible) {
+      themeCol.classList.remove('theme-dimmed');
+    } else {
+      themeCol.classList.add('theme-dimmed');
+    }
+  });
+}
+
+// Store data attrs on story boxes for filtering
+document.querySelectorAll('.story-box').forEach(box => {
+  // data attrs were set during build — we'll attach them now
+});
+
+// Re-build with data attrs — patch buildStory to emit data attrs
+// We do this by re-rendering after initial build
+// Easier: add data attrs directly after render
+document.querySelectorAll('.story-box').forEach(box => {
+  const titleEl = box.querySelector('.story-title');
+  const tags = box.querySelectorAll('.meta-tag');
+  // We'll identify by position: status is first tag with s- class, priority p- class, user user-tag
+  tags.forEach(tag => {
+    if ([...tag.classList].some(c => c.startsWith('s-'))) box.dataset.status = tag.textContent.trim();
+    if ([...tag.classList].some(c => c.startsWith('p-'))) box.dataset.priority = tag.textContent.trim();
+    if (tag.classList.contains('user-tag')) box.dataset.user = tag.textContent.trim();
+  });
+});
+
+document.getElementById('f-status').addEventListener('change', applyFilters);
+document.getElementById('f-priority').addEventListener('change', applyFilters);
+document.getElementById('f-user').addEventListener('change', applyFilters);
+document.getElementById('btn-reset').addEventListener('click', () => {
+  document.getElementById('f-status').value = '';
+  document.getElementById('f-priority').value = '';
+  document.getElementById('f-user').value = '';
+  applyFilters();
+});
+</script>
+</body>
+</html>
