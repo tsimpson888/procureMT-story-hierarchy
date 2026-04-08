@@ -299,6 +299,15 @@
     <label for="f-user">Story User</label>
     <select id="f-user"><option value="">All Users</option></select>
   </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <label for="f-mvp">MVP</label>
+    <select id="f-mvp">
+      <option value="">All</option>
+      <option value="true">MVP</option>
+      <option value="false">NOT MVP</option>
+    </select>
+  </div>
   <button class="btn-reset" id="btn-reset">Reset</button>
 </div>
 
@@ -626,13 +635,19 @@ function applyFilters() {
   const fStatus   = document.getElementById('f-status').value;
   const fPriority = document.getElementById('f-priority').value;
   const fUser     = document.getElementById('f-user').value;
+  const fMvp      = document.getElementById('f-mvp').value;
   const anyStoryFilter = fStatus || fPriority || fUser;
 
   document.querySelectorAll('.theme-col').forEach(themeCol => {
     let themeHasVisible = false;
 
     themeCol.querySelectorAll('.feature-col').forEach(featCol => {
-      // Skip features that are hidden by the MVP toggle
+      // Filter by MVP
+      if (fMvp !== '' && featCol.dataset.mvp !== fMvp) {
+        featCol.classList.add('feature-dimmed');
+        return;
+      }
+
       const storyBoxes = featCol.querySelectorAll('.story-box');
       const hasStories = storyBoxes.length > 0;
 
@@ -709,10 +724,12 @@ document.querySelectorAll('.story-box').forEach(box => {
 document.getElementById('f-status').addEventListener('change', applyFilters);
 document.getElementById('f-priority').addEventListener('change', applyFilters);
 document.getElementById('f-user').addEventListener('change', applyFilters);
+document.getElementById('f-mvp').addEventListener('change', applyFilters);
 document.getElementById('btn-reset').addEventListener('click', () => {
   document.getElementById('f-status').value = '';
   document.getElementById('f-priority').value = '';
   document.getElementById('f-user').value = '';
+  document.getElementById('f-mvp').value = '';
   applyFilters();
 });
 </script>
