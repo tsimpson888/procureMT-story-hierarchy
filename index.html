@@ -164,6 +164,15 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     margin-bottom: 0;
   }
+  /* Status-based story box colors */
+  .story-box.sb-complete   { background:#d1fae5; border-color:#34d399; }
+  .story-box.sb-dev        { background:#dbeafe; border-color:#60a5fa; }
+  .story-box.sb-design     { background:#fef9c3; border-color:#facc15; }
+  .story-box.sb-handoff    { background:#ede9fe; border-color:#a78bfa; }
+  .story-box.sb-notstarted { background:#f3f4f6; border-color:#d1d5db; }
+  .story-box.sb-draft      { background:#ffe4e6; border-color:#fca5a5; }
+  .story-box.sb-ba         { background:#cffafe; border-color:#22d3ee; }
+  .story-box.sb-other      { background:#fff; border-color:#ddd; }
   .story-title {
     font-weight: 600;
     font-size: 0.74rem;
@@ -188,28 +197,12 @@
   .feature-gap { height: 10px; width: 100%; }
 
   /* ─── Theme palette ─── */
-  /* Access Control */       .t0 { background:#dbe9ff; border-color:#6ea8fe; color:#0a3b7a; }
-  /* Approvals */            .t1 { background:#e9d8fd; border-color:#a78bfa; color:#4c0d8a; }
-  /* Assignment & Work */    .t2 { background:#d1fae5; border-color:#34d399; color:#064e2a; }
-  /* Other */                .t3 { background:#ffe4c4; border-color:#fb923c; color:#7a2e00; }
-  /* Reporting & Insights */ .t4 { background:#fef9c3; border-color:#facc15; color:#713f12; }
-  /* Request Intake */       .t5 { background:#fce7f3; border-color:#f472b6; color:#831843; }
-  /* Unassigned */           .t6 { background:#e5e7eb; border-color:#9ca3af; color:#374151; }
-  /* Visibility & Tracking */.t7 { background:#cffafe; border-color:#22d3ee; color:#164e63; }
-  /* Workflow & Routing */   .t8 { background:#dcfce7; border-color:#4ade80; color:#14532d; }
-  /* Workspace */            .t9 { background:#ede9fe; border-color:#8b5cf6; color:#3b0764; }
+  .t0, .t1, .t2, .t3, .t4,
+  .t5, .t6, .t7, .t8, .t9 { background:#374151; border-color:#1f2937; color:#fff; }
 
-  /* Feature box uses slightly deeper border of its theme */
-  .f0 { background:#eef4ff; border-color:#6ea8fe; color:#0a3b7a; }
-  .f1 { background:#f3eeff; border-color:#a78bfa; color:#4c0d8a; }
-  .f2 { background:#ecfdf5; border-color:#34d399; color:#064e2a; }
-  .f3 { background:#fff7ed; border-color:#fb923c; color:#7a2e00; }
-  .f4 { background:#fefce8; border-color:#facc15; color:#713f12; }
-  .f5 { background:#fdf2f8; border-color:#f472b6; color:#831843; }
-  .f6 { background:#f3f4f6; border-color:#9ca3af; color:#374151; }
-  .f7 { background:#ecfeff; border-color:#22d3ee; color:#164e63; }
-  .f8 { background:#f0fdf4; border-color:#4ade80; color:#14532d; }
-  .f9 { background:#f5f3ff; border-color:#8b5cf6; color:#3b0764; }
+  /* Feature boxes — medium gray, black font */
+  .f0, .f1, .f2, .f3, .f4,
+  .f5, .f6, .f7, .f8, .f9 { background:#d1d5db; border-color:#9ca3af; color:#111827; }
 
   /* ─── Status badge colours ─── */
   .s-complete   { background:#d1fae5; color:#065f46; }
@@ -230,9 +223,7 @@
   /* ─── User badge ─── */
   .user-tag { background:#e0f2fe; color:#0369a1; }
 
-  /* ─── Config story override ─── */
-  .story-box.config-story { background:#e5e7eb; border-color:#9ca3af; }
-  .story-box.config-story .story-title { color:#374151; }
+
 
   /* ─── Filter bar ─── */
   .filter-bar {
@@ -334,30 +325,36 @@ const DATA = {
         { title: "Assignment Groups-Create", status: "1a-Not Started", priority: "", user: "Agency IT" },
         { title: "Assignment Groups-Manage", status: "1a-Not Started", priority: "", user: "Agency IT" }
       ]},
-      "System Security and Authentication": { mvp: true, stories: [] }
+      "System Security and Authentication": { mvp: true, stories: [
+        { title: "System Security and Authentication", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Approvals": {
     cls: "t1", fcls: "f1",
     features: {
       "Approval Path Builder": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Approval Path Builder", status: "1a-Not Started", priority: "", user: "" }
       ]},
       "Approval Path Execution": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Approval Path Execution", status: "1a-Not Started", priority: "", user: "" }
       ]},
       "Approval Path Override": { mvp: false, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Approval Path Override", status: "1a-Not Started", priority: "", user: "" }
       ]},
-      "Auto IT Approval Needed Classification": { mvp: false, stories: [] },
-      "Auto OBPP Approval Required Classification": { mvp: false, stories: [] }
+      "Auto IT Approval Needed Classification": { mvp: false, stories: [
+        { title: "Auto IT Approval Needed Classification", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Auto OBPP Approval Required Classification": { mvp: false, stories: [
+        { title: "Auto OBPP Approval Required Classification", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Assignment & Work Distribution": {
     cls: "t2", fcls: "f2",
     features: {
       "Auto/Manual Step & Group Progression": { mvp: true, stories: [
-        { title: "Post Approval Routing", status: "1b-Draft", priority: "1-must have", user: "System" },
+        { title: "Post Approval Routing", status: "2-Design", priority: "1-must have", user: "System" },
         { title: "Auto Step Upon Save as Draft", status: "2-Design", priority: "3-could have", user: "System" },
         { title: "Auto Step Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
         { title: "Auto Group Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
@@ -370,12 +367,23 @@ const DATA = {
         { title: "Assigned To or Claim", status: "2-Design", priority: "", user: "Procurement Group / Leadership Group" }
       ]},
       "Reassignments": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Reassignments", status: "1a-Not Started", priority: "", user: "" }
       ]},
-      "Auto Procurement Method Classification": { mvp: false, stories: [] },
-      "Auto Round Robin Rerouting Capabilities": { mvp: false, stories: [] },
-      "Escalations": { mvp: false, stories: [] },
-      "Manual Workload Management": { mvp: false, stories: [] }
+      "Auto Procurement Method Classification": { mvp: false, stories: [
+        { title: "Auto Procurement Method Classification", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Auto Round Robin Rerouting Capabilities": { mvp: false, stories: [
+        { title: "Auto Round Robin Rerouting Capabilities", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Escalations": { mvp: false, stories: [
+        { title: "Escalations", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Manual Workload Management": { mvp: false, stories: [
+        { title: "Manual Workload Management", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Dynamic Workflow Reroute": { mvp: true, stories: [
+        { title: "Dynamic Workflow Rerouting", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Other": {
@@ -384,12 +392,24 @@ const DATA = {
       "Application": { mvp: true, stories: [
         { title: "Application- Config (may need to split???)", status: "8-Complete", priority: "1-must have", user: "System" }
       ]},
-      "Data Exports": { mvp: true, stories: [] },
-      "Data Movement": { mvp: true, stories: [] },
-      "Bulk Operations": { mvp: false, stories: [] },
-      "Mobile": { mvp: false, stories: [] },
-      "Other Configuration Management": { mvp: false, stories: [] },
-      "User Preference Management": { mvp: false, stories: [] }
+      "Data Exports": { mvp: true, stories: [
+        { title: "Data Exports", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Data Movement": { mvp: true, stories: [
+        { title: "Data Movement", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Bulk Operations": { mvp: false, stories: [
+        { title: "Bulk Operations", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Mobile": { mvp: false, stories: [
+        { title: "Mobile", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Other Configuration Management": { mvp: false, stories: [
+        { title: "Other Configuration Management", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "User Preference Management": { mvp: false, stories: [
+        { title: "User Preference Management", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Reporting & Insights": {
@@ -401,10 +421,14 @@ const DATA = {
         { title: "Sourcing Procurement Group Queues", status: "1b-Draft", priority: "1-must have", user: "Procurement Group / Leadership Group" }
       ]},
       "Search and Filter Capabilities": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Search and Filter Capabilities", status: "1a-Not Started", priority: "", user: "" }
       ]},
-      "Operational Reports": { mvp: false, stories: [] },
-      "Dashboards": { mvp: false, stories: [] }
+      "Operational Reports": { mvp: false, stories: [
+        { title: "Operational Reports", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Dashboards": { mvp: false, stories: [
+        { title: "Dashboards", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Request Intake & Management": {
@@ -424,7 +448,7 @@ const DATA = {
         { title: "Add Refinement Details", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" }
       ]},
       "Cancelations": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Cancelations", status: "1a-Not Started", priority: "", user: "" }
       ]}
     }
   },
@@ -444,14 +468,20 @@ const DATA = {
     features: {
       "Status Tracking and Management": { mvp: true, stories: [
         { title: "State/Step/Status Mapping-Config", status: "3b-In Development", priority: "1-must have", user: "System" },
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Status Tracking and Management", status: "1a-Not Started", priority: "", user: "" }
       ]},
       "Action History Interface": { mvp: true, stories: [
-        { title: "see feature description", status: "1a-Not Started", priority: "", user: "" }
+        { title: "Action History Interface", status: "1a-Not Started", priority: "", user: "" }
       ]},
-      "Compliance and Audit History": { mvp: true, stories: [] },
-      "Event-Based Notifications": { mvp: true, stories: [] },
-      "Reminder and Escalation Notifications": { mvp: false, stories: [] }
+      "Compliance and Audit History": { mvp: true, stories: [
+        { title: "Compliance and Audit History", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Event-Based Notifications": { mvp: true, stories: [
+        { title: "Event-Based Notifications", status: "1a-Not Started", priority: "", user: "" }
+      ]},
+      "Reminder and Escalation Notifications": { mvp: false, stories: [
+        { title: "Reminder and Escalation Notifications", status: "1a-Not Started", priority: "", user: "" }
+      ]}
     }
   },
   "Workflow & Routing Engine": {
@@ -461,8 +491,7 @@ const DATA = {
         { title: "Commodity Codes-Config", status: "3b-In Development", priority: "1-must have", user: "System" },
         { title: "EntitySpendingCodeMatrix-Config", status: "2-Design", priority: "1-must have", user: "System" },
         { title: "EntityList-Config", status: "2-Design", priority: "1-must have", user: "System" }
-      ]},
-      "Dynamic Workflow Reroute": { mvp: true, stories: [] }
+      ]}
     }
   },
   "Workspace": {
@@ -501,10 +530,21 @@ function priorityClass(p) {
   return 'p-none';
 }
 
+function storyBoxClass(status) {
+  if (!status) return 'sb-other';
+  if (status.includes('Complete') || status.includes('PASS')) return 'sb-complete';
+  if (status.includes('Development')) return 'sb-dev';
+  if (status.includes('Design')) return 'sb-design';
+  if (status.includes('Hand-off')) return 'sb-handoff';
+  if (status.includes('Not Started')) return 'sb-notstarted';
+  if (status.includes('Draft')) return 'sb-draft';
+  if (status.includes('BA')) return 'sb-ba';
+  return 'sb-other';
+}
+
 function buildStory(s) {
-  const isConfig = s.title.toLowerCase().includes('config');
   return `
-    <div class="story-box${isConfig ? ' config-story' : ''}">
+    <div class="story-box ${storyBoxClass(s.status)}">
       <div class="story-title">${s.title}</div>
       <div class="story-meta">
         ${s.status ? `<span class="meta-tag ${statusClass(s.status)}">${s.status}</span>` : ''}
@@ -676,5 +716,66 @@ document.getElementById('btn-reset').addEventListener('click', () => {
   applyFilters();
 });
 </script>
-</body>
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
 </html>
