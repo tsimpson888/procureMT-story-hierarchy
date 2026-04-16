@@ -7,912 +7,183 @@
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
   <style>
-    :root,
-    [data-theme="light"] {
+    :root,[data-theme="light"] {
       --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
       --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
       --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
       --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
       --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
-
-      --space-1: 0.25rem;
-      --space-2: 0.5rem;
-      --space-3: 0.75rem;
-      --space-4: 1rem;
-      --space-5: 1.25rem;
-      --space-6: 1.5rem;
-      --space-8: 2rem;
-      --space-10: 2.5rem;
-      --space-12: 3rem;
-      --space-16: 4rem;
-
-      --color-bg: #f7f6f2;
-      --color-surface: #fbfbf9;
-      --color-surface-2: #f3f0ec;
-      --color-border: #d4d1ca;
-      --color-divider: #dcd9d5;
-      --color-text: #28251d;
-      --color-text-muted: #6f6d67;
-      --color-text-faint: #9a9892;
-      --color-primary: #01696f;
-      --color-primary-hover: #0c4e54;
-      --color-primary-highlight: #cedcd8;
-      --color-shadow: oklch(0.2 0.01 80 / 0.08);
-      --color-shadow-lg: oklch(0.2 0.01 80 / 0.14);
-      --radius-sm: 0.375rem;
-      --radius-md: 0.5rem;
-      --radius-lg: 0.75rem;
-      --radius-xl: 1rem;
-      --radius-full: 9999px;
-      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
-      --theme-box-bg: #374151;
-      --theme-box-border: #1f2937;
-      --feature-box-bg: #d1d5db;
-      --feature-box-border: #9ca3af;
-      --connector: #b8b6b1;
-      --font-body: 'Satoshi', 'Inter', system-ui, sans-serif;
-      --font-display: 'Satoshi', 'Inter', system-ui, sans-serif;
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --color-bg: #f7f6f2; --color-surface: #fbfbf9; --color-surface-2: #f3f0ec; --color-border: #d4d1ca; --color-divider: #dcd9d5; --color-text: #28251d; --color-text-muted: #6f6d67; --color-text-faint: #9a9892;
+      --color-primary: #01696f; --color-shadow: oklch(0.2 0.01 80 / 0.08); --color-shadow-lg: oklch(0.2 0.01 80 / 0.14); --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px; --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --theme-box-bg: #374151; --theme-box-border: #1f2937; --feature-box-bg: #d1d5db; --feature-box-border: #9ca3af; --connector: #b8b6b1; --font-body: 'Satoshi','Inter',system-ui,sans-serif; --font-display: 'Satoshi','Inter',system-ui,sans-serif;
     }
-
-    [data-theme="dark"] {
-      --color-bg: #171614;
-      --color-surface: #1c1b19;
-      --color-surface-2: #22211f;
-      --color-border: #393836;
-      --color-divider: #2c2b29;
-      --color-text: #dfddd8;
-      --color-text-muted: #aaa7a0;
-      --color-text-faint: #7a7770;
-      --color-primary: #4f98a3;
-      --color-primary-hover: #70b5c0;
-      --color-primary-highlight: #243233;
-      --color-shadow: oklch(0 0 0 / 0.28);
-      --color-shadow-lg: oklch(0 0 0 / 0.38);
-      --theme-box-bg: #2e3440;
-      --theme-box-border: #495262;
-      --feature-box-bg: #454f5d;
-      --feature-box-border: #687385;
-      --connector: #6c6a66;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      min-height: 100vh;
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      color: var(--color-text);
-      background: var(--color-bg);
-      line-height: 1.5;
-    }
-    img, svg { display: block; max-width: 100%; }
-    button, select { font: inherit; color: inherit; }
-    button { cursor: pointer; }
-    :focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-      border-radius: var(--radius-sm);
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-    .page {
-      padding: 0 var(--space-4) var(--space-10);
-    }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: color-mix(in oklab, var(--color-surface) 88%, transparent);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--color-divider);
-      box-shadow: 0 4px 16px var(--color-shadow);
-      margin: 0 calc(var(--space-4) * -1);
-      padding: var(--space-3) var(--space-4);
-    }
-    .topbar-inner {
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      flex-wrap: wrap;
-    }
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-    .filter-group label {
-      font-size: var(--text-xs);
-      font-weight: 700;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    select,
-    .btn,
-    .theme-toggle {
-      min-height: 42px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      background: var(--color-surface);
-      color: var(--color-text);
-      padding: 0 var(--space-3);
-      transition: background var(--transition), border-color var(--transition), transform var(--transition);
-    }
-    select:hover,
-    .btn:hover,
-    .theme-toggle:hover { background: var(--color-surface-2); }
-    .btn { font-weight: 700; }
-    .btn-reset { color: var(--color-text-muted); }
-    .theme-toggle {
-      width: 42px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: auto;
-    }
-    .hero {
-      padding: var(--space-8) 0 var(--space-6);
-      text-align: center;
-    }
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: var(--space-2);
-    }
-    .hero p { color: var(--color-text-muted); }
-    .timestamp {
-      margin-top: var(--space-2);
-      font-size: var(--text-xs);
-      color: var(--color-text-faint);
-    }
-    .board-shell {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 10px 30px var(--color-shadow);
-      padding: var(--space-4);
-      overflow: hidden;
-    }
-    .scroll-track {
-      overflow-x: auto;
-      overflow-y: hidden;
-      height: 14px;
-      margin-bottom: var(--space-4);
-      border-radius: var(--radius-full);
-      background: var(--color-surface-2);
-      border: 1px solid var(--color-border);
-    }
-    .scroll-track::-webkit-scrollbar,
-    .canvas::-webkit-scrollbar { height: 10px; }
-    .scroll-track::-webkit-scrollbar-thumb,
-    .canvas::-webkit-scrollbar-thumb {
-      background: var(--color-text-faint);
-      border-radius: var(--radius-full);
-    }
-    .scroll-track-inner { height: 1px; }
-    .canvas {
-      overflow-x: auto;
-      overflow-y: visible;
-      padding-bottom: var(--space-2);
-      scrollbar-width: none;
-    }
-    .themes-row {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-5);
-      min-width: max-content;
-      padding: 0 var(--space-1);
-    }
-    .theme-col {
-      width: min(280px, 78vw);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: opacity var(--transition), transform var(--transition);
-    }
-    .theme-col.theme-dimmed { opacity: 0.24; }
-    .theme-box,
-    .feature-box,
-    .story-box {
-      width: 100%;
-      text-align: left;
-    }
-    .theme-box {
-      background: var(--theme-box-bg);
-      color: #fff;
-      border: 1px solid var(--theme-box-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-3) var(--space-4);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      box-shadow: 0 6px 18px var(--color-shadow);
-    }
-    .theme-connector,
-    .feature-connector,
-    .story-connector,
-    .feature-hbar {
-      background: var(--connector);
-      flex-shrink: 0;
-    }
-    .theme-connector,
-    .feature-connector,
-    .story-connector { width: 2px; }
-    .theme-connector { height: 18px; }
-    .feature-connector { height: 16px; }
-    .story-connector { height: 10px; }
-    .features-area {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .feature-hbar {
-      width: 100%;
-      height: 2px;
-    }
-    .feature-col {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: opacity var(--transition);
-    }
-    .feature-col.feature-dimmed { opacity: 0.26; }
-    .feature-gap { width: 100%; height: var(--space-3); }
-    .feature-box {
-      background: var(--feature-box-bg);
-      color: #111827;
-      border: 1px solid var(--feature-box-border);
-      border-radius: var(--radius-md);
-      padding: var(--space-3);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      box-shadow: 0 3px 10px var(--color-shadow);
-    }
-    [data-theme="dark"] .feature-box { color: #f4f4f5; }
-    .feature-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-2);
-      flex-wrap: wrap;
-    }
-    .stories-col {
-      width: calc(100% - 10px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .story-box {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: var(--space-3);
-      box-shadow: 0 2px 10px var(--color-shadow);
-      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
-    }
-    .story-box:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px var(--color-shadow-lg);
-    }
-    .story-hidden { display: none !important; }
-    .story-title {
-      font-size: var(--text-sm);
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: var(--space-2);
-      color: var(--color-text);
-    }
-    .story-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-1);
-    }
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 22px;
-      border-radius: var(--radius-full);
-      padding: 0.125rem 0.5rem;
-      font-size: var(--text-xs);
-      font-weight: 700;
-      white-space: nowrap;
-      border: 1px solid transparent;
-    }
-    .mvp-badge { background: #166534; color: #fff; }
-    .mvp-badge.not { background: #6b7280; color: #fff; }
-    .s-complete, .sb-complete { background: #d1fae5; color: #065f46; border-color: #34d399; }
-    .s-dev, .sb-dev { background: #dbeafe; color: #1e40af; border-color: #60a5fa; }
-    .s-design, .sb-design { background: #fef9c3; color: #78350f; border-color: #facc15; }
-    .s-handoff, .sb-handoff { background: #ede9fe; color: #5b21b6; border-color: #a78bfa; }
-    .s-notstarted, .sb-notstarted { background: #f3f4f6; color: #4b5563; border-color: #cbd5e1; }
-    .s-draft, .sb-draft { background: #ffe4e6; color: #9f1239; border-color: #fca5a5; }
-    .s-ba, .sb-ba { background: #cffafe; color: #155e75; border-color: #22d3ee; }
-    .s-qa, .sb-qa { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
-    .s-other, .sb-other { background: #e5e7eb; color: #374151; border-color: #cbd5e1; }
-    .sb-canceled { background: #f3f4f6; color: #6b7280; border-color: #9ca3af; opacity: 0.68; }
-    .p-must { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
-    .p-should { background: #ffedd5; color: #9a3412; border-color: #fdba74; }
-    .p-could { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
-    .p-none { background: #f3f4f6; color: #6b7280; border-color: #d1d5db; }
-    .user-tag { background: #e0f2fe; color: #075985; border-color: #7dd3fc; }
-    .legend {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: var(--space-3);
-      margin-top: var(--space-5);
-      padding-top: var(--space-4);
-      border-top: 1px solid var(--color-divider);
-    }
-    .legend-card {
-      background: var(--color-surface-2);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-3);
-    }
-    .legend-card h2 {
-      font-size: var(--text-sm);
-      margin-bottom: var(--space-2);
-    }
-    .legend-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-    @media (max-width: 780px) {
-      .page { padding-inline: var(--space-3); }
-      .topbar { margin-inline: calc(var(--space-3) * -1); padding-inline: var(--space-3); }
-      .topbar-inner { align-items: stretch; }
-      .filter-group { width: 100%; justify-content: space-between; }
-      .filter-group label { min-width: 92px; }
-      select, .btn { flex: 1; }
-      .theme-toggle { margin-left: 0; }
-      .hero { text-align: left; }
-      .hero h1 { max-width: 12ch; }
-      .theme-col { width: min(260px, 82vw); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
+    [data-theme="dark"] { --color-bg: #171614; --color-surface: #1c1b19; --color-surface-2: #22211f; --color-border: #393836; --color-divider: #2c2b29; --color-text: #dfddd8; --color-text-muted: #aaa7a0; --color-text-faint: #7a7770; --color-primary: #4f98a3; --color-shadow: oklch(0 0 0 / 0.28); --color-shadow-lg: oklch(0 0 0 / 0.38); --theme-box-bg: #2e3440; --theme-box-border: #495262; --feature-box-bg: #454f5d; --feature-box-border: #687385; --connector: #6c6a66; }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { min-height:100vh; font-family:var(--font-body); font-size:var(--text-base); color:var(--color-text); background:var(--color-bg); line-height:1.5; }
+    button,select,input { font:inherit; color:inherit; } button { cursor:pointer; }
+    :focus-visible { outline:2px solid var(--color-primary); outline-offset:2px; border-radius:4px; }
+    .page { padding:0 var(--space-4) var(--space-10); }
+    .topbar { position:sticky; top:0; z-index:100; background:color-mix(in oklab, var(--color-surface) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--color-divider); box-shadow:0 4px 16px var(--color-shadow); margin:0 calc(var(--space-4) * -1); padding:var(--space-3) var(--space-4); }
+    .topbar-inner { display:flex; align-items:center; gap:var(--space-3); flex-wrap:wrap; }
+    .filter-group { display:flex; align-items:center; gap:var(--space-2); }
+    .filter-group label { font-size:var(--text-xs); font-weight:700; color:var(--color-text-muted); text-transform:uppercase; letter-spacing:0.04em; }
+    select,input,.btn,.theme-toggle { min-height:42px; border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); padding:0 var(--space-3); }
+    input[type="search"] { min-width: 260px; }
+    .btn { font-weight:700; } .theme-toggle { width:42px; display:inline-flex; align-items:center; justify-content:center; margin-left:auto; }
+    .hero { padding:var(--space-8) 0 var(--space-6); text-align:center; } .hero h1 { font-family:var(--font-display); font-size:var(--text-xl); line-height:1.1; letter-spacing:-0.03em; margin-bottom:var(--space-2); } .hero p { color:var(--color-text-muted); } .timestamp { margin-top:var(--space-2); font-size:var(--text-xs); color:var(--color-text-faint); }
+    .board-shell { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:0 10px 30px var(--color-shadow); padding:var(--space-4); overflow:hidden; }
+    .scroll-track { overflow-x:auto; overflow-y:hidden; height:14px; margin-bottom:var(--space-4); border-radius:var(--radius-full); background:var(--color-surface-2); border:1px solid var(--color-border); } .scroll-track-inner { height:1px; }
+    .canvas { overflow-x:auto; overflow-y:visible; padding-bottom:var(--space-2); scrollbar-width:none; }
+    .themes-row { display:flex; align-items:flex-start; gap:var(--space-5); min-width:max-content; padding:0 var(--space-1); }
+    .theme-col { width:min(280px, 78vw); display:flex; flex-direction:column; align-items:center; transition:opacity var(--transition); } .theme-col.theme-dimmed { opacity:.24; } .theme-col.is-collapsed .features-area { display:none; } .theme-col.is-collapsed .theme-connector { display:none; }
+    .theme-box,.feature-box,.story-box { width:100%; text-align:left; }
+    .theme-box { background:var(--theme-box-bg); color:#fff; border:1px solid var(--theme-box-border); border-radius:var(--radius-lg); padding:0; box-shadow:0 6px 18px var(--color-shadow); overflow:hidden; } .theme-toggle-row { width:100%; display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); padding:var(--space-3) var(--space-4); background:transparent; border:0; color:inherit; text-align:left; font-size:var(--text-sm); font-weight:700; text-transform:uppercase; letter-spacing:.03em; } .theme-toggle-row .chevron { font-size:0.95rem; transition:transform var(--transition); } .theme-col.is-collapsed .theme-toggle-row .chevron { transform:rotate(-90deg); }
+    .theme-connector,.feature-connector,.story-connector,.feature-hbar { background:var(--connector); flex-shrink:0; } .theme-connector,.feature-connector,.story-connector { width:2px; } .theme-connector { height:18px; } .feature-connector { height:16px; } .story-connector { height:10px; }
+    .features-area { width:100%; display:flex; flex-direction:column; align-items:center; } .feature-hbar { width:100%; height:2px; } .feature-col { width:100%; display:flex; flex-direction:column; align-items:center; } .feature-col.feature-dimmed { opacity:.26; } .feature-col.is-collapsed .stories-col { display:none; } .feature-col.is-collapsed .feature-connector { display:none; } .feature-gap { width:100%; height:var(--space-3); }
+    .feature-box { background:var(--feature-box-bg); color:#111827; border:1px solid var(--feature-box-border); border-radius:var(--radius-md); padding:0; box-shadow:0 3px 10px var(--color-shadow); overflow:hidden; } [data-theme="dark"] .feature-box { color:#f4f4f5; }
+    .feature-toggle-row { width:100%; display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); flex-wrap:wrap; padding:var(--space-3); background:transparent; border:0; color:inherit; text-align:left; }
+    .feature-title { display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); flex-wrap:wrap; width:100%; font-size:var(--text-sm); font-weight:700; } .feature-toggle-row .chevron { font-size:0.9rem; transition:transform var(--transition); margin-left:auto; } .feature-col.is-collapsed .feature-toggle-row .chevron { transform:rotate(-90deg); }
+    .stories-col { width:calc(100% - 10px); display:flex; flex-direction:column; align-items:center; }
+    .story-box { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-3); box-shadow:0 2px 10px var(--color-shadow); transition:transform var(--transition), box-shadow var(--transition), opacity var(--transition); }
+    .story-box:hover { transform:translateY(-1px); box-shadow:0 8px 20px var(--color-shadow-lg); } .story-hidden { display:none !important; }
+    .story-title { font-size:var(--text-sm); font-weight:700; line-height:1.3; margin-bottom:var(--space-2); color:var(--color-text); }
+    .story-desc { font-size:var(--text-xs); color:var(--color-text-muted); margin-bottom:var(--space-2); line-height:1.45; }
+    .story-meta { display:flex; flex-wrap:wrap; gap:var(--space-1); }
+    .tag { display:inline-flex; align-items:center; min-height:22px; border-radius:var(--radius-full); padding:.125rem .5rem; font-size:var(--text-xs); font-weight:700; white-space:nowrap; border:1px solid transparent; }
+    .mvp-badge { background:#166534; color:#fff; } .mvp-badge.not { background:#6b7280; color:#fff; }
+    .s-complete,.sb-complete { background:#d1fae5; color:#065f46; border-color:#34d399; } .s-dev,.sb-dev { background:#dbeafe; color:#1e40af; border-color:#60a5fa; } .s-design,.sb-design { background:#fef9c3; color:#78350f; border-color:#facc15; } .s-handoff,.sb-handoff { background:#ede9fe; color:#5b21b6; border-color:#a78bfa; } .s-notstarted,.sb-notstarted { background:#f3f4f6; color:#4b5563; border-color:#cbd5e1; } .s-draft,.sb-draft { background:#ffe4e6; color:#9f1239; border-color:#fca5a5; } .s-ba,.sb-ba { background:#cffafe; color:#155e75; border-color:#22d3ee; } .s-qa,.sb-qa { background:#fef3c7; color:#92400e; border-color:#f59e0b; } .s-other,.sb-other { background:#e5e7eb; color:#374151; border-color:#cbd5e1; } .sb-canceled { background:#f3f4f6; color:#6b7280; border-color:#9ca3af; opacity:.68; }
+    .p-must { background:#fee2e2; color:#991b1b; border-color:#fecaca; } .p-should { background:#ffedd5; color:#9a3412; border-color:#fdba74; } .p-could { background:#fef3c7; color:#92400e; border-color:#fcd34d; } .p-none { background:#f3f4f6; color:#6b7280; border-color:#d1d5db; } .user-tag { background:#e0f2fe; color:#075985; border-color:#7dd3fc; } .id-tag { background:#ede9fe; color:#5b21b6; border-color:#c4b5fd; }
+    .summary { display:flex; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-5); padding-top:var(--space-4); border-top:1px solid var(--color-divider); } .summary .tag { background:var(--color-surface-2); color:var(--color-text); border-color:var(--color-border); }
+    @media (max-width:780px) { .page { padding-inline:var(--space-3); } .topbar { margin-inline:calc(var(--space-3) * -1); padding-inline:var(--space-3); } .topbar-inner,.filter-group { align-items:stretch; } .filter-group { width:100%; justify-content:space-between; } .filter-group label { min-width:92px; } select,input,.btn { flex:1; min-width:0; } .theme-toggle { margin-left:0; } .hero { text-align:left; } .hero h1 { max-width:12ch; } .theme-col { width:min(260px,82vw); } }
   </style>
 </head>
 <body>
   <div class="page">
     <header class="topbar">
       <div class="topbar-inner">
-        <div class="filter-group">
-          <label for="f-status">Status</label>
-          <select id="f-status"><option value="">All Statuses</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="f-priority">Priority</label>
-          <select id="f-priority"><option value="">All Priorities</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="f-user">Story User</label>
-          <select id="f-user"><option value="">All Users</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="f-mvp">MVP</label>
-          <select id="f-mvp">
-            <option value="">All</option>
-            <option value="true">MVP</option>
-            <option value="false">Not MVP</option>
-          </select>
-        </div>
-        <button class="btn btn-reset" id="btn-reset" type="button">Reset</button>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
-          <span aria-hidden="true">◐</span>
-        </button>
+        <div class="filter-group"><label for="q-search">Search</label><input id="q-search" type="search" placeholder="Search themes, features, stories..." /></div>
+        <div class="filter-group"><label for="f-status">Status</label><select id="f-status"><option value="">All Statuses</option></select></div>
+        <div class="filter-group"><label for="f-priority">Priority</label><select id="f-priority"><option value="">All Priorities</option></select></div>
+        <div class="filter-group"><label for="f-user">Story User</label><select id="f-user"><option value="">All Users</option></select></div>
+        <div class="filter-group"><label for="f-mvp">MVP</label><select id="f-mvp"><option value="">All</option><option value="true">MVP</option><option value="false">Not MVP</option></select></div>
+        <button class="btn" id="btn-reset" type="button">Reset</button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><span aria-hidden="true">◐</span></button>
       </div>
     </header>
-
     <main>
-      <section class="hero" aria-labelledby="page-title">
-        <h1 id="page-title">Story Hierarchy</h1>
-        <p>Themes, features, and stories in one readable flow.</p>
-        <p class="timestamp">Last updated: April 13, 2026 at 12:38 PM MDT</p>
+      <section class="hero">
+        <h1>Story Hierarchy</h1>
+        <p>Same layout, refreshed data, plus search.</p>
+        <p class="timestamp">Refreshed from stories-again.xlsx on April 16, 2026 at 3:23 PM MDT</p>
       </section>
-
-      <section class="board-shell" aria-label="Story hierarchy board">
-        <div class="scroll-track" id="scroll-track" aria-hidden="true">
-          <div class="scroll-track-inner" id="scroll-track-inner"></div>
-        </div>
-        <div class="canvas" id="canvas">
-          <div class="themes-row" id="themes-row"></div>
-        </div>
-
-        <section class="legend" aria-label="Legend">
-          <article class="legend-card">
-            <h2>Status tags</h2>
-            <div class="legend-list">
-              <span class="tag s-complete">Complete</span>
-              <span class="tag s-dev">In Development</span>
-              <span class="tag s-design">Design</span>
-              <span class="tag s-qa">QA</span>
-            </div>
-          </article>
-          <article class="legend-card">
-            <h2>Priority tags</h2>
-            <div class="legend-list">
-              <span class="tag p-must">Must</span>
-              <span class="tag p-should">Should</span>
-              <span class="tag p-could">Could</span>
-            </div>
-          </article>
-          <article class="legend-card">
-            <h2>Feature scope</h2>
-            <div class="legend-list">
-              <span class="tag mvp-badge">MVP</span>
-              <span class="tag mvp-badge not">Not MVP</span>
-            </div>
-          </article>
-        </section>
+      <section class="board-shell">
+        <div class="scroll-track" id="scroll-track" aria-hidden="true"><div class="scroll-track-inner" id="scroll-track-inner"></div></div>
+        <div class="canvas" id="canvas"><div class="themes-row" id="themes-row"></div></div>
+        <div class="summary" id="summary"></div>
       </section>
     </main>
   </div>
-
   <script>
-    const DATA = {
-      "Access Control": {
-        cls: "t0",
-        features: {
-          "Roles and Permissions": {
-            mvp: true,
-            stories: [
-              { title: "RBAC-Config", status: "5a-Ready for QA Testing", priority: "1-must have", user: "System" }
-            ]
-          },
-          "Assignment Groups and Members Management": {
-            mvp: true,
-            stories: [
-              { title: "Assignment Groups-Config", status: "5a-Ready for QA Testing", priority: "1-must have", user: "System" },
-              { title: "Assignment Groups-Create", status: "1a-Not Started", priority: "", user: "Agency IT" },
-              { title: "Assignment Groups-Manage", status: "1a-Not Started", priority: "", user: "Agency IT" }
-            ]
-          },
-          "System Security and Authentication": {
-            mvp: true,
-            stories: [
-              { title: "System Security and Authentication", status: "1a-Not Started", priority: "", user: "" }
-            ]
-          }
-        }
-      },
-      "Approvals": {
-        cls: "t1",
-        features: {
-          "Approval Path Builder": { mvp: true, stories: [{ title: "Approval Path Builder", status: "1a-Not Started", priority: "", user: "" }] },
-          "Approval Path Execution": { mvp: true, stories: [{ title: "Approval Path Execution", status: "1a-Not Started", priority: "", user: "" }] },
-          "Approval Path Override": { mvp: false, stories: [{ title: "Approval Path Override", status: "1a-Not Started", priority: "", user: "" }] },
-          "Auto IT Approval Needed Classification": { mvp: false, stories: [{ title: "Auto IT Approval Needed Classification", status: "1a-Not Started", priority: "", user: "" }] },
-          "Auto OBPP Approval Required Classification": { mvp: false, stories: [{ title: "Auto OBPP Approval Required Classification", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Assignment Work Distribution": {
-        cls: "t2",
-        features: {
-          "Auto/Manual Step Group Progression": {
-            mvp: true,
-            stories: [
-              { title: "Post Approval Routing", status: "2-Design", priority: "1-must have", user: "System" },
-              { title: "Auto Step Upon Save as Draft", status: "2-Design", priority: "3-could have", user: "System" },
-              { title: "Auto Step Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
-              { title: "Auto Group Upon Submit", status: "3b-In Development", priority: "1-must have", user: "System" },
-              { title: "Manual Intake in Process - Temp Change assignment", status: "3b-In Development", priority: "1-must have", user: "Procurement Group" },
-              { title: "Manual Ready for Approval", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
-              { title: "Manual Approval Complete - Temp", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
-              { title: "Manually Assign Sourcing Assignment Group and Status - Temp", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" }
-            ]
-          },
-          "Individual Assignment": {
-            mvp: true,
-            stories: [
-              { title: "Assigned To or Claim", status: "1b-Draft", priority: "", user: "Procurement Group, Leadership Group" }
-            ]
-          },
-          "Reassignments": { mvp: true, stories: [{ title: "Reassignments", status: "1a-Not Started", priority: "", user: "" }] },
-          "Auto Procurement Method Classification": { mvp: false, stories: [{ title: "Auto Procurement Method Classification", status: "1a-Not Started", priority: "", user: "" }] },
-          "Auto Round Robin Rerouting Capabilities": { mvp: false, stories: [{ title: "Auto Round Robin Rerouting Capabilities", status: "1a-Not Started", priority: "", user: "" }] },
-          "Escalations": { mvp: false, stories: [{ title: "Escalations", status: "1a-Not Started", priority: "", user: "" }] },
-          "Manual Workload Management": { mvp: false, stories: [{ title: "Manual Workload Management", status: "1a-Not Started", priority: "", user: "" }] },
-          "Dynamic Workflow Reroute": { mvp: true, stories: [{ title: "Dynamic Workflow Rerouting", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Other": {
-        cls: "t3",
-        features: {
-          "Application": { mvp: true, stories: [{ title: "Application- Config may need to split???", status: "8-Complete", priority: "1-must have", user: "System" }] },
-          "Data Exports": { mvp: true, stories: [{ title: "Data Exports", status: "1a-Not Started", priority: "", user: "" }] },
-          "Data Movement": { mvp: true, stories: [{ title: "Data Movement", status: "1a-Not Started", priority: "", user: "" }] },
-          "Bulk Operations": { mvp: false, stories: [{ title: "Bulk Operations", status: "1a-Not Started", priority: "", user: "" }] },
-          "Mobile": { mvp: false, stories: [{ title: "Mobile", status: "1a-Not Started", priority: "", user: "" }] },
-          "Other Configuration Management": { mvp: false, stories: [{ title: "Other Configuration Management", status: "1a-Not Started", priority: "", user: "" }] },
-          "User Preference Management": { mvp: false, stories: [{ title: "User Preference Management", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Reporting Insights": {
-        cls: "t4",
-        features: {
-          "Queue Interface": {
-            mvp: true,
-            stories: [
-              { title: "Threshold Procurement Group Queues", status: "2-Design", priority: "1-must have", user: "Procurement Group, Leadership Group" },
-              { title: "Procurement Group Queue-Details", status: "3b-In Development", priority: "2-should have", user: "Procurement Group" },
-              { title: "Sourcing Procurement Group Queues", status: "1b-Draft", priority: "1-must have", user: "Procurement Group, Leadership Group" }
-            ]
-          },
-          "Search and Filter Capabilities": { mvp: true, stories: [{ title: "Search and Filter Capabilities", status: "1a-Not Started", priority: "", user: "" }] },
-          "Operational Reports": { mvp: false, stories: [{ title: "Operational Reports", status: "1a-Not Started", priority: "", user: "" }] },
-          "Dashboards": { mvp: false, stories: [{ title: "Dashboards", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Request Intake Management": {
-        cls: "t5",
-        features: {
-          "Request Management": {
-            mvp: true,
-            stories: [
-              { title: "Create Request - Enterprise Fields", status: "3b-In Development", priority: "1-must have", user: "Requester" },
-              { title: "Save Draft Request", status: "2-Design", priority: "3-could have", user: "Requester" },
-              { title: "Submit Request", status: "3b-In Development", priority: "1-must have", user: "Requester" }
-            ]
-          },
-          "Attachment Management": {
-            mvp: true,
-            stories: [
-              { title: "Add Request Attachments", status: "2-Design", priority: "2-should have", user: "Requester" },
-              { title: "Add Attachments", status: "2-Design", priority: "2-should have", user: "Procurement Group" }
-            ]
-          },
-          "Refined Request Management": {
-            mvp: true,
-            stories: [
-              { title: "View Original Request Details", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" },
-              { title: "Add Refinement Details", status: "3a-Hand-off to Product Mgr", priority: "1-must have", user: "Procurement Group" }
-            ]
-          },
-          "Cancelations": { mvp: true, stories: [{ title: "Cancelations", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Unassigned": {
-        cls: "t6",
-        features: {
-          "Unassigned": {
-            mvp: false,
-            stories: [
-              { title: "Delegation Setup In Database Cross-Cutting", status: "8-Complete", priority: "1-must have", user: "System" },
-              { title: "Fix Test Procurement API Deployment", status: "8-Complete", priority: "1-must have", user: "System" },
-              { title: "Make Environment Secrets File Work", status: "8-Complete", priority: "1-must have", user: "System" },
-              { title: "Show Front End Is Up Even If Back End Is Not", status: "8-Complete", priority: "1-must have", user: "System" }
-            ]
-          }
-        }
-      },
-      "Visibility Tracking": {
-        cls: "t7",
-        features: {
-          "Status Tracking and Management": {
-            mvp: true,
-            stories: [
-              { title: "State/Step/Status Mapping-Config", status: "5a-Ready for QA Testing", priority: "1-must have", user: "System" },
-              { title: "Status Tracking and Management", status: "1a-Not Started", priority: "", user: "" }
-            ]
-          },
-          "Action History Interface": { mvp: true, stories: [{ title: "Action History Interface", status: "1a-Not Started", priority: "", user: "" }] },
-          "Compliance and Audit History": { mvp: true, stories: [{ title: "Audit History-Field Level", status: "3b-In Development", priority: "1-must have", user: "System" }] },
-          "Event-Based Notifications": { mvp: true, stories: [{ title: "Event-Based Notifications", status: "1a-Not Started", priority: "", user: "" }] },
-          "Reminder and Escalation Notifications": { mvp: false, stories: [{ title: "Reminder and Escalation Notifications", status: "1a-Not Started", priority: "", user: "" }] }
-        }
-      },
-      "Workflow Routing Engine": {
-        cls: "t8",
-        features: {
-          "Entity Configuration Management": {
-            mvp: true,
-            stories: [
-              { title: "Commodity Codes-Config", status: "5a-Ready for QA Testing", priority: "1-must have", user: "System" },
-              { title: "Entity/SpendingCodeMatrix-Config", status: "2-Design", priority: "1-must have", user: "System" },
-              { title: "EntityList-Config", status: "2-Design", priority: "1-must have", user: "System" }
-            ]
-          }
-        }
-      },
-      "Workspace": {
-        cls: "t9",
-        features: {
-          "Requester Workspace": {
-            mvp: false,
-            stories: [
-              { title: "Requester Workspace-Config", status: "1a-Not Started", priority: "", user: "Requester" },
-              { title: "Requester Workspace-Detail", status: "1a-Not Started", priority: "", user: "Requester" }
-            ]
-          },
-          "Procurement Workspace": {
-            mvp: true,
-            stories: [
-              { title: "Procurement Workspace-Config", status: "6b-BA Testing PASS", priority: "", user: "System" },
-              { title: "Procurement Workspace-Detail-Step/Status Visibility", status: "2-Design", priority: "1-must have", user: "Procurement Group, Leadership Group" },
-              { title: "Procurement Workspace-Detail-Threshold Queue Visibility", status: "2-Design", priority: "1-must have", user: "Procurement Group, Leadership Group" }
-            ]
-          }
-        }
-      }
-    };
-
+    const DATA = {"Other": {"features": {"Application": {"mvp": false, "stories": [{"id": "1", "title": "Application- Config (may need to split???)", "status": "8-Complete", "priority": "1-must have", "user": "System", "desc": "I must create a procurement application, so state users can submit and manage procurement requests while on the state network."}]}, "Data Exports": {"mvp": false, "stories": [{"id": "54", "title": "Data Exports", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Data Movement": {"mvp": false, "stories": [{"id": "55", "title": "Data Movement", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Bulk Operations": {"mvp": false, "stories": [{"id": "56", "title": "Bulk Operations", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Mobile": {"mvp": false, "stories": [{"id": "57", "title": "Mobile", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Other Configuration Management": {"mvp": false, "stories": [{"id": "58", "title": "Other Configuration Management", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "User Preference Management": {"mvp": false, "stories": [{"id": "59", "title": "User Preference Management", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Workspace": {"features": {"Requester Workspace": {"mvp": false, "stories": [{"id": "2", "title": "Requester Workspace-Config", "status": "1a-Not Started", "priority": "", "user": "Requester", "desc": ""}, {"id": "17", "title": "Requester Workspace-Detail", "status": "1a-Not Started", "priority": "", "user": "Requester", "desc": ""}]}, "Procurement Workspace": {"mvp": false, "stories": [{"id": "3", "title": "Procurement Workspace-Config", "status": "6b-BA Testing PASS", "priority": "", "user": "System", "desc": "I must create a workspace where procurement and leadership staff can see everything they need to see to do their work."}, {"id": "44", "title": "Procurement Workspace-Detail-Step/Status Visibility", "status": "2-Design", "priority": "1-must have", "user": "Procurement Group;#Leadership Group", "desc": "I need to be able to easily see the Step and Status of a Request so that I can determine where it is in the overall workflow."}, {"id": "45", "title": "Procurement Workspace-Detail-Threshold Queue Visibility", "status": "2-Design", "priority": "1-must have", "user": "Procurement Group;#Leadership Group", "desc": "I need to be able to easily locate the Open Requests by Threshold Queue so that I can open them.  I need to be able to see Queue name and be able to Open the Queue."}]}}}, "Visibility & Tracking": {"features": {"Status Tracking and Management": {"mvp": false, "stories": [{"id": "4", "title": "State/Step/Status Mapping-Config", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": "I need to configure statep/step/status to enable request tracking."}, {"id": "35", "title": "Status Tracking and Management", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Action History Interface": {"mvp": false, "stories": [{"id": "34", "title": "Action History Interface", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}, {"id": "66", "title": "Audit Trail", "status": "8-Canceled", "priority": "1-must have", "user": "System", "desc": "To support story 24 and other future stories, we need to ensure that we have field level auditing on requests."}]}, "Compliance and Audit History": {"mvp": false, "stories": [{"id": "62", "title": "Audit History-Field Level", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": "To support story 24 and other future stories, we need to ensure that we have field level auditing on requests."}]}, "Event-Based Notifications": {"mvp": false, "stories": [{"id": "63", "title": "Event-Based Notifications", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Reminder and Escalation Notifications": {"mvp": false, "stories": [{"id": "64", "title": "Reminder and Escalation Notifications", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Workflow & Routing Engine": {"features": {"Entity Configuration Management": {"mvp": false, "stories": [{"id": "5", "title": "Commodity Codes-Config", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": "I need to store a list of static commodity codes that contain details about the commodity code.  This list will be maintained by non-business staff within the system."}, {"id": "8", "title": "EntitySpendingCodeMatrix-Config", "status": "2-Design", "priority": "1-must have", "user": "System", "desc": "I need to configure each state entity with their allowed delegated authority thresholds and allowed commodity codes, so that post approval routing rules work correctly."}, {"id": "46", "title": "EntityList-Config", "status": "2-Design", "priority": "1-must have", "user": "System", "desc": "I need to configure a master list of each state entity with their name and (agency) code for use throughout the application.  Load info for all of the Entities listed on the spreadsheet where MVP = Yes."}]}}}, "Access Control": {"features": {"Roles and Permissions": {"mvp": false, "stories": [{"id": "6", "title": "RBAC-Config", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": ""}]}, "Assignment Groups and Members Management": {"mvp": false, "stories": [{"id": "7", "title": "Assignment Groups-Config", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": "I need to configure assignment groups so that requests can be routed appropriately."}, {"id": "10", "title": "Assignment Groups-Create", "status": "1a-Not Started", "priority": "", "user": "Agency IT", "desc": ""}, {"id": "11", "title": "Assignment Groups-Manage", "status": "1a-Not Started", "priority": "", "user": "Agency IT", "desc": ""}]}, "System Security and Authentication": {"mvp": false, "stories": [{"id": "47", "title": "System Security and Authentication", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Assignment & Work Distribution": {"features": {"Auto/Manual Step & Group Progression": {"mvp": false, "stories": [{"id": "9", "title": "Post Approval Routing", "status": "2-Design", "priority": "1-must have", "user": "System", "desc": "I need to evaluate specific refined info (fields) once the request has been approved so the request is routed to the appropriate Assignment Group and Step/Status for sourcing actions.\n\nThis story represents the expected system evaluation and logic behind the automatic Assignment Group and automatic Step/Status update that is triggered upon a Request entering the Approval/Approved Step/Status."}, {"id": "15", "title": "Auto Step Upon Save as Draft", "status": "2-Design", "priority": "3-could have", "user": "System", "desc": "I need to auto update the step/status to Request/Draft upon save as draft."}, {"id": "18", "title": "Auto Step Upon Submit", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "System", "desc": "I need to auto update the step/status to Intake/New upon submit."}, {"id": "19", "title": "Auto Group Upon Submit", "status": "3b-In Development", "priority": "1-must have", "user": "System", "desc": "I need to auto update the assignment group to Procurement Group upon submit."}, {"id": "21", "title": "Manual Intake in Process - Temp (Change assignment)", "status": "3b-In Development", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to indicate when the intake is in process."}, {"id": "27", "title": "Manual Ready for Approval", "status": "3a-Hand-off to Product Mgr", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to indicate when intake/refinement is complete to show that the request is ready for the approval path."}, {"id": "31", "title": "Manual Approval Complete - Temp", "status": "3a-Hand-off to Product Mgr", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to indicate when the request has been approved by the required parties so I know the request is ready to be sent for sourcing."}, {"id": "32", "title": "Manually Assign Sourcing Assignment Group and Status - Temp", "status": "3a-Hand-off to Product Mgr", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to indicate the sourcing status and assignment group so that the request can be sent to the correct group for sourcing."}]}, "Individual Assignment": {"mvp": false, "stories": [{"id": "20", "title": "Assigned To or Claim", "status": "1b-Draft", "priority": "", "user": "Procurement Group;#Leadership Group", "desc": "I need a way to assign a request to myself or another person in request's assignment group."}]}, "Reassignments": {"mvp": false, "stories": [{"id": "36", "title": "Reassignments", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Auto Procurement Method Classification": {"mvp": false, "stories": [{"id": "50", "title": "Auto Procurement Method Classification", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Auto Round Robin Rerouting Capabilities": {"mvp": false, "stories": [{"id": "51", "title": "Auto Round Robin Rerouting Capabilities", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Escalations": {"mvp": false, "stories": [{"id": "52", "title": "Escalations", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Manual Workload Management": {"mvp": false, "stories": [{"id": "53", "title": "Manual Workload Management", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Dynamic Workflow Reroute": {"mvp": false, "stories": [{"id": "65", "title": "Dynamic Workflow Rerouting", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Request Intake & Management": {"features": {"Request Management": {"mvp": false, "stories": [{"id": "12", "title": "Create Request - Enterprise Fields", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "Requester", "desc": "I must be able to create a request on an easy-to-find procurement request form, so that I can initiate a purchase request."}, {"id": "14", "title": "Save Draft Request", "status": "2-Design", "priority": "3-could have", "user": "Requester", "desc": "I must be able to save my request as a draft, so that I can gather information over time and submit when ready."}, {"id": "16", "title": "Submit Request", "status": "6a-Ready for BA Testing", "priority": "1-must have", "user": "Requester", "desc": "I must be able to submit the request form.  I want the system to validate my form on submit, so that I know I've provided all required information.  I must receive confirmation and a tracking number upon a successful submit, so that I can reference it in future communications."}]}, "Attachment Management": {"mvp": false, "stories": [{"id": "13", "title": "Add Attachments During Request", "status": "2-Design", "priority": "1-must have", "user": "Requester", "desc": "I must be able to attach supporting documents to my request prior to submitting my request, so that reviewers have complete information."}, {"id": "26", "title": "Add Attachments After Submission", "status": "2-Design", "priority": "1-must have", "user": "Procurement Group;#Leadership Group", "desc": "I must be able to attach supporting documents to any request I have access to, so that reviewers have complete information."}, {"id": "67", "title": "Attachments - FileNet Capabilities Outside of User Stories", "status": "1a-Not Started", "priority": "", "user": "", "desc": "FileNet capabilities that haven't yet been called out in related attachment stories.  Do we need any of their capabilities?  Which ones?  By when?"}]}, "Refined Request Management": {"mvp": false, "stories": [{"id": "24", "title": "View Original Request Details", "status": "3a-Hand-off to Product Mgr", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to see the request details so that I know what is being requested.  I should not be able to edit the original request details.\n\nInformation must be organized in a logical, easy-to-navigate fashion."}, {"id": "25", "title": "Add Refinement Details", "status": "3a-Hand-off to Product Mgr", "priority": "1-must have", "user": "Procurement Group", "desc": "I must be able to refine a request by adding information to it.\n\nThe refinement area must be organized in a logical, easy-to-navigate fashion."}]}, "Cancelations": {"mvp": false, "stories": [{"id": "33", "title": "Cancelations", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Reporting & Insights": {"features": {"Queue Interface": {"mvp": false, "stories": [{"id": "22", "title": "Threshold Procurement Group Queues", "status": "2-Design", "priority": "1-must have", "user": "Procurement Group;#Leadership Group", "desc": "I must be able to see requests organized by Threshold to facilitate workload management."}, {"id": "23", "title": "Procurement Group Queue-Details", "status": "3b-In Development", "priority": "2-should have", "user": "Procurement Group", "desc": "I must be able to see key request information while looking at the queue to facilitate workload management."}, {"id": "38", "title": "Sourcing Procurement Group Queues", "status": "1b-Draft", "priority": "1-must have", "user": "Procurement Group;#Leadership Group", "desc": "I must be able to see requests organized by Sourcing queues to facilitate workload management."}]}, "Search and Filter Capabilities": {"mvp": false, "stories": [{"id": "37", "title": "Search and Filter Capabilities", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Operational Reports": {"mvp": false, "stories": [{"id": "60", "title": "Operational Reports", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Dashboards": {"mvp": false, "stories": [{"id": "61", "title": "Dashboards", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Approvals": {"features": {"Approval Path Builder": {"mvp": false, "stories": [{"id": "28", "title": "Approval Path Builder", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Approval Path Execution": {"mvp": false, "stories": [{"id": "29", "title": "Approval Path Execution", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Approval Path Override": {"mvp": false, "stories": [{"id": "30", "title": "Approval Path Override", "status": "1a-Not Started", "priority": "", "user": "", "desc": ""}]}, "Auto IT Approval Needed Classification": {"mvp": false, "stories": [{"id": "48", "title": "Auto IT Approval Needed Classification", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}, "Auto OBPP Approval Required Classification": {"mvp": false, "stories": [{"id": "49", "title": "Auto OBPP Approval Required Classification", "status": "1a-Not Started", "priority": "", "user": "", "desc": "placeholder story - see feature description"}]}}}, "Unassigned": {"features": {"Unassigned": {"mvp": false, "stories": [{"id": "39", "title": "Delegation Setup In Database (Cross‑Cutting)", "status": "8-Complete", "priority": "1-must have", "user": "System", "desc": "As a system architect, I want delegation set up in the database as a cross‑cutting capability, so future security and features can be built with delegation in mind across the whole application."}, {"id": "40", "title": "Fix Test Procurement API Deployment", "status": "8-Complete", "priority": "1-must have", "user": "System", "desc": "As a developer, I want the test procurement API to deploy and stay healthy, so the back end can be tested and used."}, {"id": "41", "title": "Make Environment Secrets File Work", "status": "8-Complete", "priority": "1-must have", "user": "System", "desc": "As a developer, I want the environment (secrets) file to generate correctly, so the app has the passwords and other secrets it needs to run."}, {"id": "42", "title": "Show Front End Is Up (Even If Back End Is Not)", "status": "8-Complete", "priority": "1-must have", "user": "System", "desc": "As a product owner, I want to see that the front end deploys and users can log in, so we can show visible progress even while the back end is still down."}]}}}};
     const themesRow = document.getElementById('themes-row');
-    const filters = {
-      status: document.getElementById('f-status'),
-      priority: document.getElementById('f-priority'),
-      user: document.getElementById('f-user'),
-      mvp: document.getElementById('f-mvp')
-    };
+    const searchInput = document.getElementById('q-search');
+    const filters = { status: document.getElementById('f-status'), priority: document.getElementById('f-priority'), user: document.getElementById('f-user'), mvp: document.getElementById('f-mvp') };
+    const summary = document.getElementById('summary');
 
-    function escapeHtml(value = '') {
-      return value
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+    const esc = (v='') => String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    const statusClass = (s='') => !s ? 's-other' : s.includes('Complete') || s.includes('PASS') ? 's-complete' : s.includes('QA') ? 's-qa' : s.includes('Development') ? 's-dev' : s.includes('Design') ? 's-design' : s.includes('Hand-off') ? 's-handoff' : s.includes('Not Started') ? 's-notstarted' : s.includes('Draft') ? 's-draft' : s.includes('BA') ? 's-ba' : 's-other';
+    const storyBoxClass = (s='') => !s ? 'sb-other' : s.includes('Canceled') || s.includes('Cancelled') ? 'sb-canceled' : s.includes('Complete') || s.includes('PASS') ? 'sb-complete' : s.includes('QA') ? 'sb-qa' : s.includes('Development') ? 'sb-dev' : s.includes('Design') ? 'sb-design' : s.includes('Hand-off') ? 'sb-handoff' : s.includes('Not Started') ? 'sb-notstarted' : s.includes('Draft') ? 'sb-draft' : s.includes('BA') ? 'sb-ba' : 'sb-other';
+    const priorityClass = (p='') => !p ? 'p-none' : p.toLowerCase().includes('must') ? 'p-must' : p.toLowerCase().includes('should') ? 'p-should' : p.toLowerCase().includes('could') ? 'p-could' : 'p-none';
+    const tag = (label, cls) => `<span class="tag ${cls}">${esc(label)}</span>`;
+
+    function buildStory(story, themeName, featureName) {
+      const meta = [story.status ? tag(story.status, statusClass(story.status)) : '', story.priority ? tag(story.priority, priorityClass(story.priority)) : '', story.user ? tag(story.user, 'user-tag') : '', story.id ? tag(story.id, 'id-tag') : ''].filter(Boolean).join('');
+      const desc = story.desc ? `<div class="story-desc">${esc(story.desc)}</div>` : '';
+      const haystack = [themeName, featureName, story.title, story.status, story.priority, story.user, story.desc, story.id].filter(Boolean).join(' | ').toLowerCase();
+      return `<div class="story-box ${storyBoxClass(story.status)}" data-status="${esc(story.status || '')}" data-priority="${esc(story.priority || '')}" data-user="${esc(story.user || '')}" data-search="${esc(haystack)}"><div class="story-title">${esc(story.title)}</div>${desc}<div class="story-meta">${meta}</div></div>`;
     }
 
-    function statusClass(status = '') {
-      if (!status) return 's-other';
-      if (status.includes('Complete') || status.includes('PASS')) return 's-complete';
-      if (status.includes('QA')) return 's-qa';
-      if (status.includes('Development')) return 's-dev';
-      if (status.includes('Design')) return 's-design';
-      if (status.includes('Hand-off')) return 's-handoff';
-      if (status.includes('Not Started')) return 's-notstarted';
-      if (status.includes('Draft')) return 's-draft';
-      if (status.includes('BA')) return 's-ba';
-      return 's-other';
-    }
-
-    function storyBoxClass(status = '') {
-      if (!status) return 'sb-other';
-      if (status.includes('Canceled') || status.includes('Cancelled')) return 'sb-canceled';
-      if (status.includes('Complete') || status.includes('PASS')) return 'sb-complete';
-      if (status.includes('QA')) return 'sb-qa';
-      if (status.includes('Development')) return 'sb-dev';
-      if (status.includes('Design')) return 'sb-design';
-      if (status.includes('Hand-off')) return 'sb-handoff';
-      if (status.includes('Not Started')) return 'sb-notstarted';
-      if (status.includes('Draft')) return 'sb-draft';
-      if (status.includes('BA')) return 'sb-ba';
-      return 'sb-other';
-    }
-
-    function priorityClass(priority = '') {
-      const p = priority.toLowerCase();
-      if (!p) return 'p-none';
-      if (p.includes('must')) return 'p-must';
-      if (p.includes('should')) return 'p-should';
-      if (p.includes('could')) return 'p-could';
-      return 'p-none';
-    }
-
-    function createTag(label, className) {
-      return `<span class="tag ${className}">${escapeHtml(label)}</span>`;
-    }
-
-    function buildStory(story) {
-      const tags = [
-        story.status ? createTag(story.status, statusClass(story.status)) : '',
-        story.priority ? createTag(story.priority, priorityClass(story.priority)) : '',
-        story.user ? createTag(story.user, 'user-tag') : ''
-      ].filter(Boolean).join('');
-
-      return `
-        <div class="story-box ${storyBoxClass(story.status)}"
-             data-status="${escapeHtml(story.status || '')}"
-             data-priority="${escapeHtml(story.priority || '')}"
-             data-user="${escapeHtml(story.user || '')}">
-          <div class="story-title">${escapeHtml(story.title)}</div>
-          <div class="story-meta">${tags}</div>
-        </div>
-      `;
-    }
-
-    function buildFeature(featureName, featureData) {
-      const storiesMarkup = featureData.stories
-        .map((story) => `<div class="story-connector"></div>${buildStory(story)}`)
-        .join('');
-
-      return `
-        <div class="feature-col" data-mvp="${String(featureData.mvp)}">
-          <div class="feature-connector"></div>
-          <div class="feature-box">
-            <div class="feature-title">
-              <span>${escapeHtml(featureName)}</span>
-              <span class="tag mvp-badge ${featureData.mvp ? '' : 'not'}">${featureData.mvp ? 'MVP' : 'Not MVP'}</span>
-            </div>
-          </div>
-          <div class="stories-col">${storiesMarkup}</div>
-        </div>
-      `;
+    function buildFeature(themeName, featureName, featureData) {
+      const storiesMarkup = featureData.stories.map(story => `<div class="story-connector"></div>${buildStory(story, themeName, featureName)}`).join('');
+      return `<div class="feature-col" data-mvp="${String(featureData.mvp)}" data-search="${esc((themeName + ' | ' + featureName).toLowerCase())}"><div class="feature-connector"></div><div class="feature-box"><button class="feature-toggle-row" type="button" aria-expanded="true"><div class="feature-title"><span>${esc(featureName)}</span><span class="tag mvp-badge ${featureData.mvp ? '' : 'not'}">${featureData.mvp ? 'MVP' : 'Not MVP'}</span></div><span class="chevron" aria-hidden="true">▾</span></button></div><div class="stories-col">${storiesMarkup}</div></div>`;
     }
 
     function renderBoard() {
       themesRow.innerHTML = Object.entries(DATA).map(([themeName, themeData]) => {
-        const featuresMarkup = Object.entries(themeData.features).map(([featureName, featureData], index) => {
-          const gap = index === 0 ? '' : '<div class="feature-gap"></div>';
-          return `${gap}${buildFeature(featureName, featureData)}`;
-        }).join('');
-
-        return `
-          <section class="theme-col" aria-label="${escapeHtml(themeName)} theme">
-            <div class="theme-box">${escapeHtml(themeName)}</div>
-            <div class="theme-connector"></div>
-            <div class="features-area">
-              <div class="feature-hbar"></div>
-              ${featuresMarkup}
-            </div>
-          </section>
-        `;
+        const featuresMarkup = Object.entries(themeData.features).map(([featureName, featureData], i) => `${i ? '<div class="feature-gap"></div>' : ''}${buildFeature(themeName, featureName, featureData)}`).join('');
+        return `<section class="theme-col" data-search="${esc(themeName.toLowerCase())}"><div class="theme-box"><button class="theme-toggle-row" type="button" aria-expanded="true"><span>${esc(themeName)}</span><span class="chevron" aria-hidden="true">▾</span></button></div><div class="theme-connector"></div><div class="features-area"><div class="feature-hbar"></div>${featuresMarkup}</div></section>`;
       }).join('');
     }
 
     function populateFilters() {
-      const statuses = new Set();
-      const priorities = new Set();
-      const users = new Set();
+      const statuses = new Set(), priorities = new Set(), users = new Set();
+      Object.values(DATA).forEach(theme => Object.values(theme.features).forEach(feature => feature.stories.forEach(story => { if (story.status) statuses.add(story.status); if (story.priority) priorities.add(story.priority); if (story.user) story.user.split(',').map(v => v.trim()).filter(Boolean).forEach(v => users.add(v)); })));
+      const fill = (el, vals) => vals.sort((a,b) => a.localeCompare(b)).forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; el.appendChild(o); });
+      fill(filters.status, [...statuses]); fill(filters.priority, [...priorities]); fill(filters.user, [...users]);
+    }
 
-      Object.values(DATA).forEach(theme => {
-        Object.values(theme.features).forEach(feature => {
-          feature.stories.forEach(story => {
-            if (story.status) statuses.add(story.status);
-            if (story.priority) priorities.add(story.priority);
-            if (story.user) {
-              story.user.split(',').map(v => v.trim()).filter(Boolean).forEach(v => users.add(v));
-            }
-          });
-        });
-      });
-
-      const fillSelect = (el, values) => {
-        values.sort((a, b) => a.localeCompare(b)).forEach(value => {
-          const option = document.createElement('option');
-          option.value = value;
-          option.textContent = value;
-          el.appendChild(option);
-        });
-      };
-
-      fillSelect(filters.status, [...statuses]);
-      fillSelect(filters.priority, [...priorities]);
-      fillSelect(filters.user, [...users]);
+    function updateSummary() {
+      const visibleStories = [...document.querySelectorAll('.story-box:not(.story-hidden)')].length;
+      const totalStories = document.querySelectorAll('.story-box').length;
+      const visibleFeatures = [...document.querySelectorAll('.feature-col:not(.feature-dimmed)')].length;
+      const visibleThemes = [...document.querySelectorAll('.theme-col:not(.theme-dimmed)')].length;
+      summary.innerHTML = `<span class="tag">Visible stories: ${visibleStories} / ${totalStories}</span><span class="tag">Visible features: ${visibleFeatures}</span><span class="tag">Visible themes: ${visibleThemes}</span>`;
     }
 
     function applyFilters() {
+      const q = searchInput.value.trim().toLowerCase();
       const status = filters.status.value;
       const priority = filters.priority.value;
       const user = filters.user.value;
       const mvp = filters.mvp.value;
-      const hasStoryFilter = Boolean(status || priority || user);
-
       document.querySelectorAll('.theme-col').forEach(themeCol => {
         let themeVisible = false;
-
         themeCol.querySelectorAll('.feature-col').forEach(featureCol => {
-          if (mvp && featureCol.dataset.mvp !== mvp) {
-            featureCol.classList.add('feature-dimmed');
-            featureCol.querySelectorAll('.story-box').forEach(box => box.classList.remove('story-hidden'));
-            themeCol.classList.toggle('theme-dimmed', false);
-            return;
-          }
-
+          const mvpMatch = !mvp || featureCol.dataset.mvp === mvp;
           const storyBoxes = [...featureCol.querySelectorAll('.story-box')];
-          let featureVisible = !hasStoryFilter;
-
+          let featureVisible = false;
           storyBoxes.forEach(box => {
             const boxUser = (box.dataset.user || '').split(',').map(v => v.trim());
-            const matches =
-              (!status || box.dataset.status === status) &&
-              (!priority || box.dataset.priority === priority) &&
-              (!user || boxUser.includes(user));
-
+            const searchMatch = !q || box.dataset.search.includes(q) || featureCol.dataset.search.includes(q) || themeCol.dataset.search.includes(q);
+            const matches = mvpMatch && (!status || box.dataset.status === status) && (!priority || box.dataset.priority === priority) && (!user || boxUser.includes(user)) && searchMatch;
             const connector = box.previousElementSibling;
-            if (!hasStoryFilter || matches) {
-              box.classList.remove('story-hidden');
-              if (connector?.classList.contains('story-connector')) connector.style.display = 'block';
-              featureVisible = true;
-            } else {
-              box.classList.add('story-hidden');
-              if (connector?.classList.contains('story-connector')) connector.style.display = 'none';
-            }
+            if (matches) { box.classList.remove('story-hidden'); if (connector?.classList.contains('story-connector')) connector.style.display = 'block'; featureVisible = true; }
+            else { box.classList.add('story-hidden'); if (connector?.classList.contains('story-connector')) connector.style.display = 'none'; }
           });
-
           featureCol.classList.toggle('feature-dimmed', !featureVisible);
           if (featureVisible) themeVisible = true;
         });
-
         themeCol.classList.toggle('theme-dimmed', !themeVisible);
       });
+      updateSummary();
     }
 
     function setupScrollSync() {
-      const canvas = document.getElementById('canvas');
-      const track = document.getElementById('scroll-track');
-      const inner = document.getElementById('scroll-track-inner');
+      const canvas = document.getElementById('canvas'), track = document.getElementById('scroll-track'), inner = document.getElementById('scroll-track-inner');
       let syncing = false;
-
-      function syncWidth() {
-        inner.style.width = `${canvas.scrollWidth}px`;
-      }
-
-      new ResizeObserver(syncWidth).observe(canvas);
-      window.addEventListener('load', syncWidth);
-      window.addEventListener('resize', syncWidth);
-
-      track.addEventListener('scroll', () => {
-        if (syncing) return;
-        syncing = true;
-        canvas.scrollLeft = track.scrollLeft;
-        syncing = false;
-      });
-
-      canvas.addEventListener('scroll', () => {
-        if (syncing) return;
-        syncing = true;
-        track.scrollLeft = canvas.scrollLeft;
-        syncing = false;
-      });
+      const syncWidth = () => inner.style.width = `${canvas.scrollWidth}px`;
+      new ResizeObserver(syncWidth).observe(canvas); window.addEventListener('load', syncWidth); window.addEventListener('resize', syncWidth);
+      track.addEventListener('scroll', () => { if (syncing) return; syncing = true; canvas.scrollLeft = track.scrollLeft; syncing = false; });
+      canvas.addEventListener('scroll', () => { if (syncing) return; syncing = true; track.scrollLeft = canvas.scrollLeft; syncing = false; });
     }
 
     function setupThemeToggle() {
-      const button = document.querySelector('[data-theme-toggle]');
-      const root = document.documentElement;
-      let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.setAttribute('data-theme', mode);
-
-      const updateButton = () => {
-        button.setAttribute('aria-label', `Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`);
-        button.innerHTML = `<span aria-hidden="true">${mode === 'dark' ? '☀' : '◐'}</span>`;
-      };
-
-      updateButton();
-      button.addEventListener('click', () => {
-        mode = mode === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', mode);
-        updateButton();
-      });
+      const button = document.querySelector('[data-theme-toggle]'); const root = document.documentElement; let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; root.setAttribute('data-theme', mode);
+      const update = () => { button.setAttribute('aria-label', `Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`); button.innerHTML = `<span aria-hidden="true">${mode === 'dark' ? '☀' : '◐'}</span>`; };
+      update(); button.addEventListener('click', () => { mode = mode === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', mode); update(); });
     }
 
-    function setupEvents() {
-      Object.values(filters).forEach(el => el.addEventListener('change', applyFilters));
-      document.getElementById('btn-reset').addEventListener('click', () => {
-        Object.values(filters).forEach(el => { el.value = ''; });
-        applyFilters();
-      });
-    }
+    function refreshScrollWidth() { const canvas = document.getElementById('canvas'); const inner = document.getElementById('scroll-track-inner'); inner.style.width = `${canvas.scrollWidth}px`; }
 
-    renderBoard();
-    populateFilters();
-    setupEvents();
-    setupScrollSync();
-    setupThemeToggle();
-    applyFilters();
+    function setupThemeCollapse() { document.querySelectorAll('.theme-toggle-row').forEach(btn => { btn.addEventListener('click', () => { const col = btn.closest('.theme-col'); const collapsed = col.classList.toggle('is-collapsed'); btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); refreshScrollWidth(); }); }); }
+
+    function setupFeatureCollapse() { document.querySelectorAll('.feature-toggle-row').forEach(btn => { btn.addEventListener('click', () => { const col = btn.closest('.feature-col'); const collapsed = col.classList.toggle('is-collapsed'); btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); refreshScrollWidth(); }); }); }
+
+    renderBoard(); populateFilters(); setupScrollSync(); setupThemeToggle(); setupThemeCollapse(); setupFeatureCollapse(); applyFilters();
+    searchInput.addEventListener('input', applyFilters);
+    Object.values(filters).forEach(el => el.addEventListener('change', applyFilters));
+    document.getElementById('btn-reset').addEventListener('click', () => { searchInput.value = ''; Object.values(filters).forEach(el => el.value = ''); applyFilters(); });
   </script>
 </body>
 </html>
